@@ -1,159 +1,182 @@
-# Vue3 天气预报应用
-
-一款基于 Vue3 + Element Plus 的单页天气预报应用，支持城市搜索、天气展示、历史记录等功能。
+# 面经记录博客系统
 
 ## How to Run
 
-### 方式一：Docker 运行（推荐）
+### 使用 Docker Compose 运行（推荐）
 
 ```bash
-# 使用 docker-compose 构建并启动
+# 构建并启动所有服务
 docker-compose up --build -d
 
 # 查看运行状态
 docker-compose ps
 
 # 查看日志
-docker-compose logs -f frontend-admin
+docker-compose logs -f
 
 # 停止服务
 docker-compose down
 ```
 
-### 方式二：本地开发运行
+### 本地开发运行
 
 ```bash
-# 进入项目目录
 cd frontend-admin
-
-# 安装依赖
 npm install
-
-# 启动开发服务器
 npm run dev
-
-# 构建生产版本
-npm run build
-```
-
-### 验证 ARM 镜像兼容性
-
-```bash
-# 验证基础镜像支持 ARM64
-docker pull --platform linux/arm64 node:20-alpine
-docker pull --platform linux/arm64 nginx:1.25-alpine
 ```
 
 ## Services
 
 | 服务名称 | 端口 | 说明 |
 |---------|------|------|
-| frontend-admin | 8081 | Vue3 天气预报前端应用 |
-
-### 技术栈
-
-- **前端框架**: Vue 3.4 + Composition API
-- **UI 组件库**: Element Plus
-- **构建工具**: Vite
-- **HTTP 客户端**: Axios
-- **天气 API**: Open-Meteo（免费开源，无需 API Key）
-- **地理编码 API**: Open-Meteo Geocoding API
-- **容器化**: Docker + Nginx
+| frontend-admin | 8081 | 面经记录博客前端管理系统 |
 
 ## 测试账号
 
-本应用无需登录，直接访问即可使用。
-
-### 测试城市示例
-
-- 北京 (Beijing)
-- 上海 (Shanghai)
-- 广州 (Guangzhou)
-- 深圳 (Shenzhen)
-- 杭州 (Hangzhou)
-- 成都 (Chengdu)
-- 东京 (Tokyo)
-- 纽约 (New York)
+本项目为纯前端项目，使用 Mock 数据，无需登录账号。
 
 ## 题目内容
 
-单页版天气预报小应用（Vue）需求分析
+我最近在面试，想要记录面试过程中的问题。帮我用 Vue 生成一个面经记录博客，功能包含分页查看面经。
 
-一、核心目标
+### 功能特性
 
-开发一款基于 Vue 的单页天气预报应用，支持用户查询指定城市的天气信息，界面简洁、操作便捷，满足入门级前端开发实践需求。
+- 📝 面经列表展示（支持分页）
+- 🔍 面经详情查看
+- ➕ 新增面经（弹窗表单）
+- 🏷️ 按公司/职位/结果/难度筛选
+- 📱 响应式设计
+- 🎨 现代化 UI 设计
 
-二、功能需求
+### 技术栈
 
-1. 城市搜索功能
-- 支持手动输入城市名称进行搜索，提供输入提示或模糊匹配功能。
-- 搜索结果支持快速选中，切换展示对应城市的天气数据。
-- 处理搜索异常情况，如城市不存在、网络错误时给出明确提示。
-2. 天气信息展示功能
-- 显示当前城市的基础天气数据：城市名称、实时温度、天气状况（晴/雨/多云等）、湿度、风力风向。
-- 展示未来1-3天的简易预报数据，包含日期、最高/最低温度、天气状况。
-- 搭配天气图标（如晴天太阳、雨天云朵），直观呈现天气状态。
-3. 本地存储功能
-- 记录用户最近搜索的城市，页面刷新后保留历史记录。
-- 支持一键清除历史搜索记录。
-4. 页面交互功能
-- 搜索按钮点击触发查询，支持回车键快捷搜索。
-- 点击历史记录中的城市名称，可快速重新查询该城市天气。
+- Vue 3 + TypeScript
+- Vite
+- Vue Router
+- Pinia
+- Element Plus
 
-三、非功能需求
+### Mock 数据说明
 
-1. 性能需求
-- 接口请求响应后，页面数据渲染延迟不超过 500ms。
-- 适配常见浏览器（Chrome、Firefox、Edge），无明显样式错乱。
-2. 界面需求
-- 采用简洁的响应式布局，兼容电脑端和手机端浏览。
-- 配色清新直观，天气信息排版清晰，重点数据（如温度）突出显示。
-3. 兼容性需求
-- 基于 Vue3 开发，可搭配 Element Plus 等轻量 UI 组件库简化布局开发。
-- 调用免费公开的天气 API（如和风天气、高德地图天气 API），无需复杂的鉴权配置。
+本项目采用前端 Mock + LocalStorage 持久化方案：
 
-根据以上要求帮我用vue写一个程序
+- 数据存储在浏览器 LocalStorage 中，刷新页面数据不丢失
+- 首次访问时加载预置的 8 条面经记录
+- 新增的面经数据自动保存到 LocalStorage
+- 清除浏览器缓存后恢复默认数据
 
-## 项目结构
+存储结构：
+```json
+{
+  "interviews": [...],
+  "version": "1.0.0"
+}
+```
+
+#### LocalStorage 局限性
+
+| 局限性 | 说明 |
+|--------|------|
+| 存储容量 | 约 5MB，大量数据可能超限 |
+| 单设备 | 数据仅存储在当前浏览器，无法跨设备同步 |
+| 无备份 | 清除浏览器数据会丢失所有记录 |
+| 无多用户 | 不支持多用户登录和数据隔离 |
+| 安全性 | 数据明文存储，无加密保护 |
+
+如需生产环境使用，建议接入后端服务（只需修改 `src/api/interview.ts`）。
+
+### 功能范围说明
+
+#### Prompt 明确要求的功能
+
+- ✅ 分页查看面经
+
+#### 超出 Prompt 要求的额外功能
+
+以下功能是基于"面经记录博客"场景的合理扩展，非 Prompt 明确要求：
+
+| 额外功能 | 扩展原因 |
+|----------|----------|
+| 面经详情页 | 博客类应用需要详情页展示完整内容 |
+| 新增面经 | "记录面试问题"隐含了新增功能需求 |
+| 按公司筛选 | 提升列表查找效率 |
+| 按职位筛选 | 提升列表查找效率 |
+| 按结果筛选 | 提升列表查找效率 |
+| 按难度筛选 | 提升列表查找效率 |
+| 面试题目展开/收起 | 优化详情页阅读体验 |
+| LocalStorage 持久化 | 解决数据刷新丢失问题 |
+
+
+### 日志系统说明
+
+项目内置了轻量级日志工具（`src/utils/logger.ts`），支持：
+
+- 多级别日志：debug、info、warn、error
+- 模块化日志标识
+- API 请求日志记录
+- 用户操作日志记录
+- 开发环境 debug 日志（生产环境自动过滤）
+
+日志输出示例：
+```
+[Interview-Blog] [2026-02-08T12:00:00.000Z] [INFO] [API] GET: /api/interviews
+[Interview-Blog] [2026-02-08T12:00:00.300Z] [INFO] [API] 新增面经成功: 字节跳动 - 前端开发工程师
+```
+
+生产环境可扩展对接日志收集服务（如 Sentry、阿里云 SLS 等）。
+
+### 项目结构
 
 ```
 .
-├── .gitignore                      # Git 忽略配置
-├── docker-compose.yml              # Docker 编排文件
-├── README.md                       # 项目文档
-└── frontend-admin/                 # 前端项目
-    ├── .env.example                # 环境变量示例
-    ├── Dockerfile                  # Docker 构建文件（支持 ARM + X86）
-    ├── index.html                  # HTML 模板
-    ├── nginx.conf                  # Nginx 配置（含健康检查端点）
-    ├── package.json                # 项目配置
-    ├── vite.config.js              # Vite 配置
-    ├── vitest.config.js            # Vitest 测试配置
-    └── src/                        # 源代码目录
-        ├── App.vue                 # 根组件
-        ├── main.js                 # 入口文件
-        ├── api/                    # API 接口封装
-        │   ├── weather.js          # 天气 API 调用
-        │   └── weather.test.js     # API 单元测试
-        ├── components/             # 组件目录
-        │   ├── CurrentWeather.vue  # 当前天气组件
-        │   ├── ForecastList.vue    # 天气预报列表组件
-        │   ├── SearchBox.vue       # 搜索框组件（含防抖）
-        │   ├── SearchHistory.vue   # 搜索历史组件
-        │   └── WeatherIcon.vue     # 天气图标组件
-        ├── composables/            # 组合式函数
-        │   ├── useDebounce.js      # 防抖 Hook
-        │   ├── useLocalStorage.js  # 本地存储 Hook
-        │   └── useWeatherCache.js  # 天气缓存 Hook
-        ├── config/                 # 配置文件
-        │   └── index.js            # 环境变量配置
-        ├── styles/                 # 样式文件
-        │   └── variables.css       # CSS 变量
-        └── utils/                  # 工具函数
-            ├── weatherCode.js      # 天气代码映射
-            └── weatherCode.test.js # 工具函数单元测试
+├── frontend-admin/                    # 前端管理系统
+│   ├── src/
+│   │   ├── api/                       # API 接口
+│   │   │   └── interview.ts
+│   │   ├── assets/                    # 静态资源
+│   │   │   └── styles/
+│   │   │       ├── global.css         # 全局样式
+│   │   │       └── variables.css      # CSS 变量
+│   │   ├── components/                # 公共组件
+│   │   │   ├── common/
+│   │   │   │   └── PageHeader.vue     # 页面头部
+│   │   │   ├── interview/
+│   │   │   │   ├── InterviewCard.vue  # 面经卡片
+│   │   │   │   ├── InterviewFilter.vue # 筛选组件
+│   │   │   │   ├── InterviewForm.vue  # 新增表单
+│   │   │   │   ├── InterviewList.vue  # 面经列表
+│   │   │   │   └── QuestionCard.vue   # 题目卡片
+│   │   │   └── layout/
+│   │   │       ├── AppFooter.vue      # 页脚
+│   │   │       └── AppHeader.vue      # 页头导航
+│   │   ├── composables/               # 组合式函数
+│   │   │   └── useMessage.ts
+│   │   ├── mock/                      # Mock 数据
+│   │   │   └── interviews.ts
+│   │   ├── router/                    # 路由配置
+│   │   │   └── index.ts
+│   │   ├── stores/                    # Pinia 状态管理
+│   │   │   └── interview.ts
+│   │   ├── types/                     # TypeScript 类型
+│   │   │   └── interview.ts
+│   │   ├── utils/                     # 工具函数
+│   │   │   ├── logger.ts              # 日志工具
+│   │   │   └── storage.ts             # LocalStorage 存储
+│   │   ├── views/                     # 页面视图
+│   │   │   ├── HomeView.vue           # 首页
+│   │   │   └── InterviewDetailView.vue # 详情页
+│   │   ├── App.vue                    # 根组件
+│   │   └── main.ts                    # 入口文件
+│   ├── public/
+│   │   └── vite.svg
+│   ├── Dockerfile                     # Docker 构建文件
+│   ├── nginx.conf                     # Nginx 配置
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
+│   └── vite.config.ts
+├── docker-compose.yml                 # Docker Compose 配置
+├── .gitignore                         # Git 忽略文件
+└── README.md                          # 项目说明
 ```
-
-## License
-
-MIT
