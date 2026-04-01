@@ -2,26 +2,21 @@
 node_modules/
 .pnp
 .pnp.js
-package-lock.json
 
 # Build outputs
 dist/
-build/
+dist-ssr/
 *.local
 
-# IDE
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
 .idea/
-.vscode/
-*.swp
-*.swo
-*~
-
-# OS
-.DS_Store
-.DS_Store?
-._*
-Thumbs.db
-ehthumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
 # Logs
 logs/
@@ -32,36 +27,28 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# Environment
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files
 .env
 .env.local
 .env.*.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.development
+.env.production
 
-# Testing
+# Test coverage
 coverage/
-*.lcov
-.nyc_output/
 
-# Cache
-.cache/
-.parcel-cache/
-.eslintcache
-.stylelintcache
+# TypeScript cache
+*.tsbuildinfo
 
-# Temp files
-*.tmp
-*.temp
+# Temporary files
 tmp/
 temp/
 
-# Docker
-docker-compose.override.yml
-
-# Frontend specific (frontend-admin)
-frontend-admin/node_modules/
-frontend-admin/dist/
-frontend-admin/.env.local
-frontend-admin/*.local
+# Package lock files (optional, uncomment if needed)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
